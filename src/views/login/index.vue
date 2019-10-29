@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     // 验证手机号规则
@@ -64,7 +65,9 @@ export default {
           // 如果校验成功，发送axios请求
           this.$http
             .post('authorizations', this.loginForm)
-            .then((res) => {
+            .then(res => {
+              // 保存用户信息（token）
+              local.setUser(res.data.data)
               // 成功后进行页面跳转
               this.$router.push('/')
             })
