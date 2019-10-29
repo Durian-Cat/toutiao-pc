@@ -3,7 +3,7 @@
     <el-aside :width="isopen?'200px':'64px'">
       <div class="logo" :class="{smallLogo:!isopen}"></div>
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         class="el-menu-vertical-demo slideList"
         background-color="#002033"
         text-color="#fff"
@@ -16,7 +16,7 @@
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-menu-item index="/content">
+        <el-menu-item index="/article">
           <i class="el-icon-document"></i>
           <span slot="title">内容管理</span>
         </el-menu-item>
@@ -48,16 +48,16 @@
         <span class="headtext">江苏传智播客科技教育有限公司</span>
         <el-dropdown class="primaryCenter">
           <span class="el-dropdown-link">
-            <img class="headIcon" src="../../assets/avatar.jpg" alt />
-            <span class="userName">用户名称</span>
+            <img class="headIcon" :src="userInfo.photo" alt />
+            <span class="userName">{{userInfo.name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
+            <el-dropdown-item @click.native="setting">
               <i class="el-icon-setting"></i>
               个人设置
             </el-dropdown-item>
-            <el-dropdown-item>
+            <el-dropdown-item @click.native="logout">
               <i class="el-icon-unlock"></i>
               退出登录
             </el-dropdown-item>
@@ -72,16 +72,30 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
-      isopen: true
+      isopen: true,
+      userInfo: {}
     }
   },
   methods: {
     toggleOpen () {
       this.isopen = !this.isopen
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      local.removeUser()
+      this.$router.push('/login')
     }
+  },
+  created () {
+    var user = local.getUser()
+    this.userInfo.photo = user.photo
+    this.userInfo.name = user.name
   }
 }
 </script>

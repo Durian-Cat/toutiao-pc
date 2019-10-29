@@ -60,24 +60,38 @@ export default {
   },
   methods: {
     checkLogin () {
-      this.$refs['loginForm'].validate(valid => {
+      this.$refs['loginForm'].validate(async valid => {
         if (valid) {
-          // 如果校验成功，发送axios请求
-          this.$http
-            .post('authorizations', this.loginForm)
-            .then(res => {
-              // 保存用户信息（token）
-              local.setUser(res.data.data)
-              // 成功后进行页面跳转
-              this.$router.push('/')
-            })
-            .catch(() => {
-              console.log('error')
-            })
-        } else {
-          // 如果校验失败，提示
-          console.log('error submit!!')
-          return false
+          //   // 如果校验成功，发送axios请求
+          //   this.$http
+          //     .post('authorizations', this.loginForm)
+          //     .then(res => {
+          //       // 保存用户信息（token）
+          //       local.setUser(res.data.data)
+          //       // 成功后进行页面跳转
+          //       this.$router.push('/')
+          //     })
+          //     .catch(() => {
+          //       console.log('error')
+          //     })
+          // } else {
+          //   // 如果校验失败，提示
+          //   console.log('error submit!!')
+          //   return false
+          // }
+          try {
+            const {
+              data: { data }
+            } = await this.$http.post('authorizations', this.loginForm)
+            // console.log(data)
+            // 保存用户信息（token）
+            local.setUser(data)
+            // 成功后进行页面跳转
+            this.$router.push('/')
+          } catch (e) {
+            console.log('error submit!!')
+            return false
+          }
         }
       })
     }
