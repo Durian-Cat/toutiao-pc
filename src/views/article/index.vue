@@ -3,9 +3,11 @@
     <el-card>
       <div slot="header">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>内容管理</el-breadcrumb-item>
+          <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
+          <!-- <el-breadcrumb-item>内容管理</el-breadcrumb-item> -->
+          <my-bread>内容管理</my-bread>
         </el-breadcrumb>
+        <template scope=""></template>
       </div>
       <el-form label-width="80px" size="small">
         <el-form-item label="状态：">
