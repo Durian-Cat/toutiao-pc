@@ -1,18 +1,8 @@
 import axios from 'axios'
 import local from '../utils/local'
 import router from '../router'
-import bigInt from 'json-bigint'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 // 添加请求拦截器
-axios.defaults.transformResponse = [(data) => {
-  // 对data进行格式转换  data就是后台响应的json字符串
-  // 如果没数据呢？data === null 使用JSONBIG.parse(null) 报错
-  try {
-    return bigInt.parse(data)
-  } catch (e) {
-    return data
-  }
-}]
 axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   const user = local.getUser() || {}
