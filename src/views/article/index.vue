@@ -155,7 +155,7 @@ export default {
     }
   },
   created () {
-    this.getChannels()
+    // this.getChannels()
     this.getArticles()
   }
 }

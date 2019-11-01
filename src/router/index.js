@@ -7,6 +7,7 @@ import Welcome from '@/views/welcome'
 import notFound from '@/views/notFound'
 import local from '@/utils/local'
 import Article from '@/views/article'
+import Images from '@/views/images'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -26,8 +27,8 @@ const router = new VueRouter({
       component: Article
     },
     {
-      path: '/',
-      component: Article
+      path: '/images',
+      component: Images
     }
     ]
   },
