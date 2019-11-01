@@ -24,6 +24,10 @@ const router = new VueRouter({
     {
       path: '/article',
       component: Article
+    },
+    {
+      path: '/',
+      component: Article
     }
     ]
   },
