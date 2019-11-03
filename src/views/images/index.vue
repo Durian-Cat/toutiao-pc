@@ -8,7 +8,20 @@
         <el-radio-button :label="false">全部</el-radio-button>
         <el-radio-button :label="true">收藏</el-radio-button>
       </el-radio-group>
-      <el-button type="success" size="small" style="float:right">添加素材</el-button>
+      <el-dialog title="添加素材" :visible.sync="dialogVisible" width="30%">
+        <el-upload
+          class="avatar-uploader"
+          name="image"
+          :headers="headers"
+          action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
+          :show-file-list="false"
+          :on-success="uploadImage"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-dialog>
+      <el-button type="success" size="small" style="float:right" @click="dialogVisible = true">添加素材</el-button>
       <div class="imgs">
         <div class="img_item" v-for="item in images" :key="item.id">
           <img :src="item.url" alt />
@@ -31,6 +44,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
@@ -39,11 +53,23 @@ export default {
         page: 1,
         per_page: 10
       },
+      headers: { Authorization: `Bearer ${local.getUser().token}` },
       images: [],
+      dialogVisible: false,
+      imageUrl: null,
       total: 0
     }
   },
   methods: {
+    uploadImage (res) {
+      this.imageUrl = res.data.url
+      this.$message.success('素材添加成功')
+      window.setTimeout(() => {
+        this.dialogVisible = false
+        this.getImages()
+        this.imageUrl = null
+      }, 2000)
+    },
     async getImages () {
       const {
         data: { data }
