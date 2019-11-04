@@ -2,7 +2,7 @@
   <div class="my-image">
     <!-- 按钮 -->
     <div class="btn_box" @click="open">
-      <img src="../assets/default.png" alt />
+      <img :src="value||defaultUrl" alt />
     </div>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="750px">
       <el-tabs type="border-card" v-model="activeTabName">
@@ -50,7 +50,7 @@
       </el-tabs>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="checkoutImage">确 定</el-button>
       </span>
     </el-dialog>
     <!--  -->
@@ -59,7 +59,9 @@
 
 <script>
 import local from '@/utils/local'
+import defaultImageUrl from '../assets/default.png'
 export default {
+  props: ['value'],
   data () {
     return {
       reqParams: {
@@ -67,6 +69,7 @@ export default {
         per_page: 8,
         page: 1
       },
+      defaultUrl: defaultImageUrl,
       headers: { Authorization: `Bearer ${local.getUser().token}` },
       selectImageUrl: null,
       uploadImageUrl: null,
@@ -77,6 +80,23 @@ export default {
     }
   },
   methods: {
+    checkoutImage () {
+      if (this.activeTabName === 'image') {
+        if (!this.selectImageUrl) {
+          return this.$message.warning('请选择一张图片')
+        }
+        // this.defaultUrl = this.selectImageUrl
+        this.$emit('input', this.selectImageUrl)
+        this.dialogVisible = false
+      } else {
+        if (!this.uploadImageUrl) {
+          return this.$message.warning('请上传一张图片')
+        }
+        // this.defaultUrl = this.uploadImageUrl
+        this.$emit('input', this.uploadImageUrl)
+        this.dialogVisible = false
+      }
+    },
     open () {
       this.dialogVisible = true
       this.getImages()
@@ -110,7 +130,7 @@ export default {
 <style lang="less" scoped>
 .my-image {
   display: inline-block;
-  margin-right: 20px;
+  margin-left: 20px;
 }
 .btn_box {
   width: 150px;
