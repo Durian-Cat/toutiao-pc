@@ -73,11 +73,15 @@
 
 <script>
 import local from '@/utils/local'
+import eventBus from '@/eventBus'
 export default {
   data () {
     return {
       isopen: true,
-      userInfo: {}
+      userInfo: {
+        name: '',
+        photo: ''
+      }
     }
   },
   methods: {
@@ -96,6 +100,12 @@ export default {
     var user = local.getUser()
     this.userInfo.photo = user.photo
     this.userInfo.name = user.name
+    eventBus.$on('updateUserInfo', (name) => {
+      this.userInfo.name = name
+    })
+    eventBus.$on('updateAvatar', (photo) => {
+      this.userInfo.photo = photo
+    })
   }
 }
 </script>

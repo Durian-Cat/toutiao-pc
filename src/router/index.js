@@ -11,6 +11,7 @@ import Images from '@/views/images'
 import Publish from '@/views/publish'
 import Comment from '@/views/comment'
 import Setting from '@/views/setting'
+import Fans from '@/views/fans'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -44,6 +45,10 @@ const router = new VueRouter({
     {
       path: '/setting',
       component: Setting
+    },
+    {
+      path: '/fans',
+      component: Fans
     }
     ]
   },
